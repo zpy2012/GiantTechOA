@@ -1,0 +1,155 @@
+{{template "bgview/header.html" .}}
+
+<div class="tpl-page-container tpl-page-header-fixed">
+
+
+        <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-title">
+                管理分类
+            </div>
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu">
+                    <li class="tpl-left-nav-item">
+                        <a href="/project/?page=1&projectname=all" class="nav-link active">
+                            <i class="am-icon-home"></i>
+                            <span>项目管理</span>
+                        </a>
+                    </li>
+                    {{if eq .User.UserLevel 0}}
+                        <li class="tpl-left-nav-item">
+                            <a href="/department/?page=1" class="nav-link ">
+                                <i class="am-icon-pagelines"></i>
+                                <span>部门管理</span>
+                            </a>
+                        </li>
+                        <li class="tpl-left-nav-item">
+                            <a href="/user/?page=1" class="nav-link ">
+                                <i class="am-icon-modx"></i>
+                                <span>用户管理</span>
+                            </a>
+                        </li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+
+        <div class="tpl-content-wrapper" >
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 项目名称：{{.ProjectName}}
+                    </div>
+                </div>
+                <div class="tpl-block">
+                    <div class="am-g zjy_marginbottom">
+                        <div class="am-u-sm-12 am-u-md-6">
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button type="button" class="am-btn am-btn-default am-btn-success" id="file_upload"><span class="am-icon-plus"></span> 上传</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: none;" id="ProjectId">{{.ProjectId}}</div>
+                    <div class="am-g">
+                        <div class="am-u-sm-12">
+                            <table class="am-table am-table-striped am-table-hover table-main">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 70%">文件名</th>
+                                        <th class="table-date am-hide-sm-only" style="width: 10%">创建人</th>
+                                        <th class="table-date am-hide-sm-only" style="width: 10%">上传日期</th>
+                                        <th class="table-set" style="width: 10%">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="filelist">
+                                {{range .files}}
+                                    <tr>
+                                        <td>{{.FileName}}</td>
+                                        <td class="am-hide-sm-only">{{.FileOwner}}</td>
+                                        <td class="am-hide-sm-only">{{date .FileCreatedTime}}</td>
+                                        <td>
+                                            <div class="am-btn-toolbar">
+                                                <div class="am-btn-group am-btn-group-xs">
+                                                    <div style="display: none;" class="filePath">{{.FilePath}}</div>
+                                                    <div style="display:none" class="FileId" >{{.Id}}</div>
+                                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary file_download_button"><span class="am-icon-pencil-square-o"></span>下载</button>
+                                                    {{if eq $.User.UserLevel 0}}
+                                                        <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only zjy_rom file_delete_button"><span class="am-icon-trash-o"></span> 删除</button>
+                                                    {{end}}
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {{end}}
+                                </tbody>
+                            </table>
+                            <div class="am-cf">
+                                <div class="am-fr">
+                                    <ul class="am-pagination tpl-pagination">
+                                        <li
+                                        {{if eq .paginator.currpage .paginator.firstpage}} 
+                                        class="am-disabled"
+                                        {{end}}
+                                        ><a href="/project/file/?page={{.paginator.firstpage}}&id={{$.ProjectId}}">«</a></li>
+                                        {{range $index,$page := .paginator.pages}}
+                                            <li 
+                                            {{if eq $.paginator.currpage $page}}
+                                            class="am-active"
+                                            {{end}}
+                                            ><a href="/project/file/?page={{$page}}&id={{$.ProjectId}}">{{$page}}</a></li>
+                                        {{end}}
+                                        <li
+                                        {{if eq .paginator.currpage .paginator.lastpage}} 
+                                        class="am-disabled"
+                                        {{end}}
+                                        ><a href="/project/file/?page={{.paginator.lastpage}}&id={{$.ProjectId}}">»</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tpl-alert"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/amazeui.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script type="text/javascript" src="static/js/change.js" ></script>
+    <script type="text/javascript">
+        function download() {
+            var URL = "/admin/export"
+            $.get(URL,
+                    function(data,status){
+                      if (data == "失败") {
+                        $(".zjy_modaltoast p").html("导出失败，请稍后重试！");
+                        $(".zjy_modal").fadeToggle().css("display","block");
+                        setTimeout(function(){
+                            $(".zjy_modal").fadeToggle().css("display","none");
+                        },1500);
+                      }else{
+                        window.location.href = data;
+                      }
+                });
+        }
+        $('.filelist').on('click', '.file_download_button', function(){
+            var index = $(this).parents('.filelist tr').index();
+            var path = $(".filePath").eq(index).text();
+            window.location.href = path;
+        });
+        $('.filelist').on('click', '.file_delete_button', function(){
+            var index = $(this).parents('.filelist tr').index();
+            var id= $(".FileId").eq(index).text();
+            var URL = "/project/deleteFile/?id="+id;
+            window.location.href = URL;
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+{{template "bgview/header.html" .}}
+
+<div class="tpl-page-container tpl-page-header-fixed">
+
+
+        <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-title">
+                管理分类
+            </div>
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu">
+                    <li class="tpl-left-nav-item">
+                        <a href="/?page=1&projectname=all" class="nav-link ">
+                            <i class="am-icon-home"></i>
+                            <span>项目管理</span>
+                        </a>
+                    </li>
+                    {{if eq .User.UserLevel 0}}
+                        <li class="tpl-left-nav-item">
+                            <a href="/department/?page=1" class="nav-link active">
+                                <i class="am-icon-pagelines"></i>
+                                <span>部门管理</span>
+                            </a>
+                        </li>
+                        <li class="tpl-left-nav-item">
+                            <a href="/user/?page=1" class="nav-link ">
+                                <i class="am-icon-modx"></i>
+                                <span>用户管理</span>
+                            </a>
+                        </li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+
+        <div class="tpl-content-wrapper" >
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 部门管理
+                    </div>
+                </div>
+                <div class="tpl-block">
+                    <div class="am-g zjy_marginbottom">
+                        <div class="am-u-sm-12 am-u-md-6">
+                            <div class="am-btn-toolbar">
+                                <div class="am-btn-group am-btn-group-xs">
+                                    <button type="button" class="am-btn am-btn-default am-btn-success department_new"><span class="am-icon-plus"></span> 新增</button>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="am-g">
+                        <div class="am-u-sm-12">
+                            <table class="am-table am-table-striped am-table-hover table-main">
+                                <thead>
+                                    <tr>
+                                        <th class="table-id">ID</th>
+                                        <th class="table-title">部门名称</th>
+                                        <th class="table-date am-hide-sm-only">创建日期</th>
+                                        <th class="table-date am-hide-sm-only">修改日期</th>
+                                        <th class="table-set">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="zjy_style_list">
+                                {{range .departments}}
+                                    <tr>
+                                        <td>{{.Id}}</td>
+                                        <td>{{.DepartmentName}}</td>
+                                        <td class="am-hide-sm-only">{{date .DepartmentCreatedTime}}</td>
+                                        <td class="am-hide-sm-only">{{date .DepartmentUpdateTime}}</td>
+                                        <td>
+                                            <div class="am-btn-toolbar">
+                                                <div class="am-btn-group am-btn-group-xs">
+                                                    <div style="display:none" class="DepartmentId">{{.Id}}</div>
+                                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-secondary department_edit_button"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+                                                    
+                                                    <button type="button" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only zjy_rom department_delete_button"><span class="am-icon-trash-o"></span> 删除</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {{end}}
+                                </tbody>
+                            </table>
+                            <div class="am-cf">
+                                <div class="am-fr">
+                                    <ul class="am-pagination tpl-pagination">
+                                        <li
+                                        {{if eq .paginator.currpage .paginator.firstpage}} 
+                                        class="am-disabled"
+                                        {{end}}
+                                        ><a href="/department/?page={{.paginator.firstpage}}">«</a></li>
+                                        {{range $index,$page := .paginator.pages}}
+                                            <li 
+                                            {{if eq $.paginator.currpage $page}}
+                                            class="am-active"
+                                            {{end}}
+                                            ><a href="/department/?page={{$page}}">{{$page}}</a></li>
+                                        {{end}}
+                                        <li
+                                        {{if eq .paginator.currpage .paginator.lastpage}} 
+                                        class="am-disabled"
+                                        {{end}}
+                                        ><a href="/department/?page={{.paginator.lastpage}}">»</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="tpl-alert"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/amazeui.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script type="text/javascript" src="static/js/change.js" ></script>
+</body>
+
+</html>

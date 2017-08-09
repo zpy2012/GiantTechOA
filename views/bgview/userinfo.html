@@ -1,0 +1,179 @@
+{{template "bgview/header.html" .}}
+    <div class="tpl-page-container tpl-page-header-fixed">
+
+
+       <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-title">
+                管理分类
+            </div>
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu">
+                    <li class="tpl-left-nav-item">
+                        <a href="/?page=1&projectname=all" class="nav-link ">
+                            <i class="am-icon-home"></i>
+                            <span>项目管理</span>
+                        </a>
+                    </li>
+                    {{if eq .User.UserLevel 0}}
+                        <li class="tpl-left-nav-item">
+                            <a href="/department/?page=1" class="nav-link ">
+                                <i class="am-icon-pagelines"></i>
+                                <span>部门管理</span>
+                            </a>
+                        </li>
+                        <li class="tpl-left-nav-item">
+                            <a href="/user/?page=1" class="nav-link">
+                                <i class="am-icon-modx"></i>
+                                <span>用户管理</span>
+                            </a>
+                        </li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="tpl-content-wrapper">
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 用户信息
+                    </div>
+                </div>
+
+                <div class="tpl-block">
+
+                    <div class="am-g">
+                        <div class="tpl-form-body tpl-form-line">
+                            <div class="am-form tpl-form-line-form ajax-form" action="/user/updateimage" method="post">
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label title">用户头像 <span class="tpl-form-line-small-title">HeadImage</span></label>
+                                    <a class="am-dropdown-toggle tpl-header-list-link">
+                                        <span class="tpl-header-list-user-ico" id="event"> <img class="am-img-thumbnail am-circle" id = "userImg" src={{.User.UserHeadImagePath}}></span>
+                                       	<form class="am-form tpl-form-line-form ajax-form" action="/user/add" method="post" style = "display: none;">
+                                       		<input type="text" name="userId" value={{.User.Id}} />
+                                       		<input type="file" name="userFile" id="userFile" value="" accept="image/*"/>
+                                       		<input type="submit" id="userImage" />
+                                       	</form>
+                                    </a>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label title">用户名 <span class="tpl-form-line-small-title">UserName</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{.User.UserName}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-realname" class="am-u-sm-3 am-form-label title">真实姓名 <span class="tpl-form-line-small-title">RealName</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{.User.UserRealName}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label title">手机号 <span class="tpl-form-line-small-title">PhoneNumber</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{.User.UserPhoneNumber}}</small>
+                                        <button type="button" class="am-btn am-btn-secondary am-round" id="updatePhone" style="margin-left: 20px; font-size: 12px;">修改</button>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-password" class="am-u-sm-3 am-form-label title">初始密码 <span class="tpl-form-line-small-title">PassWord</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <button type="button" class="am-btn am-btn-secondary am-round" id="updatePasswd" style="font-size: 12px;">修改密码</button>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-level" class="am-u-sm-3 am-form-label title">身份 <span class="tpl-form-line-small-title">Level</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{userLevel .User.UserLevel}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-department" class="am-u-sm-3 am-form-label title">所属部门 <span class="tpl-form-line-small-title">Department</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{departmentName .User.UserDepartmentID}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-createdtime" class="am-u-sm-3 am-form-label title">创建时间 <span class="tpl-form-line-small-title">CreatedTime</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{date .User.UserCreatedTime}}</small>
+                                    </div>
+                                </div>
+                                <div style="display: none;">{{.User.Id}}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="updateph">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">Amaze UI</div>
+        <div class="am-modal-bd">
+          验证已绑定号码：
+          <label class="am-modal-prompt-input" id="phoneLabel" style="border: none;">{{.User.UserPhoneNumber}}</label>
+          <div class="am-modal-prompt-input yhy_div" style="padding: 0px; border: 0px">
+            <input type="text" class="am-modal-prompt-input yhy_input" id="phoneCode" style="display: inline-block;width: 73%;" placeholder="输入验证码" required="true">
+            <button type="button" class="am-btn am-btn-secondary am-round" id="getoldcode" style="height: 33px; margin-top: 5px;display: inline-block;line-height: 16px; width: 25%;font-size: 14px;">获取验证码</button>
+          </div>
+        </div>
+        <div class="am-modal-footer">
+          <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="newPhone">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">Amaze UI</div>
+        <div class="am-modal-bd">
+          绑定新手机号：
+          <input type="text" class="am-modal-prompt-input" id="newphoneLabel" placeholder="请输入手机号">
+          <div class="am-modal-prompt-input yhy_div" style="padding: 0px; border: 0px">
+            <input type="text" class="am-modal-prompt-input yhy_input" id="newPhoneCode" style="display: inline-block;width: 73%;" placeholder="输入验证码">
+            <button type="button" class="am-btn am-btn-secondary am-round" id="getnewcode" style="height: 33px; margin-top: 5px;display: inline-block;line-height: 16px; width: 25%;font-size: 14px;">获取验证码</button>
+          </div>
+        </div>
+        <div class="am-modal-footer">
+          <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="newpwd">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">Amaze UI</div>
+        <div class="am-modal-bd">
+          输入新密码：
+          <input type="PassWord" class="am-modal-prompt-input" id="pwdLabel1" placeholder="请输入新密码">
+          <input type="PassWord" class="am-modal-prompt-input" id="pwdLabel2" placeholder="请再次输入密码">
+        </div>
+        <div class="am-modal-footer">
+          <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="am-modal am-modal-no-btn" tabindex="-1" id="alert">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd" id="title">正在上传...</div>
+            <div class="am-modal-bd">
+                <span class="am-icon-spinner am-icon-spin"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/amazeui.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script type="text/javascript" src="static/js/jquery.form.js"></script>
+    <script type="text/javascript" src="static/js/change.js" ></script>
+</body>
+
+</html>

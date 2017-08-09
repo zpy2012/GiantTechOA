@@ -1,0 +1,139 @@
+{{template "bgview/header.html" .}}
+    <div class="tpl-page-container tpl-page-header-fixed">
+
+
+       <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-title">
+                管理分类
+            </div>
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu">
+                    <li class="tpl-left-nav-item">
+                        <a href="/?page=1&projectname=all" class="nav-link ">
+                            <i class="am-icon-home"></i>
+                            <span>项目管理</span>
+                        </a>
+                    </li>
+                    {{if eq .User.UserLevel 0}}
+                        <li class="tpl-left-nav-item">
+                            <a href="/department/?page=1" class="nav-link ">
+                                <i class="am-icon-pagelines"></i>
+                                <span>部门管理</span>
+                            </a>
+                        </li>
+                        <li class="tpl-left-nav-item">
+                            <a href="/user/?page=1" class="nav-link active">
+                                <i class="am-icon-modx"></i>
+                                <span>用户管理</span>
+                            </a>
+                        </li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="tpl-content-wrapper">
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 表单
+                    </div>
+                </div>
+
+                <div class="tpl-block">
+
+                    <div class="am-g">
+                        <div class="tpl-form-body tpl-form-line">
+                            <form class="am-form tpl-form-line-form ajax-form" action="/user/edit" method="post">
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label">项目权限 <span class="tpl-form-line-small-title">ProjectAuthority</span></label>
+                                    <div class="am-u-sm-9">
+                                    	<input type="text" name="id" value={{.User.Id}} style = "display: none;" />
+                                        <select data-am-selected name="allProjects">
+                                          <option value=0
+                                          {{if eq .allProjects 0}}
+                                          selected
+                                          {{end}}
+                                          >查看个人项目</option>
+                                          <option value=1
+                                          {{if eq .allProjects 1}}
+                                          selected
+                                          {{end}}
+                                          >查看全部项目</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label">报价权限 <span class="tpl-form-line-small-title">PriceAuthority</span></label>
+                                    <div class="am-u-sm-9">
+                                        <select data-am-selected name="price">
+                                          <option value=-1
+                                          {{if eq .price -1}}
+                                          selected
+                                          {{end}}
+                                          >不能报价</option>
+                                          <option value=0
+                                          {{if eq .price 0}}
+                                          selected
+                                          {{end}}
+                                          >设计报价</option>
+                                          <option value=1
+                                          {{if eq .price 1}}
+                                          selected
+                                          {{end}}
+                                          >开发报价</option>
+                                          <option value=2
+                                          {{if eq .price 2}}
+                                          selected
+                                          {{end}}
+                                          >运营报价</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label">所属部门 <span class="tpl-form-line-small-title">Department</span></label>
+                                    <div class="am-u-sm-9">
+                                        <select data-am-selected="" name="departmentID">
+                                        {{range .departments}}
+                                          <option value={{.Id}} 
+                                          {{if eq .Id $.departmentID}}
+                                          selected="selected"
+                                          {{end}}
+                                          >{{.DepartmentName}}</option>
+                                        {{end}}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3"> 
+                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success submit_button" >提交</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="your-modal">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">正在上传...</div>
+            <div class="am-modal-bd">
+                <span class="am-icon-spinner am-icon-spin"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/amazeui.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script type="text/javascript" src="static/js/jquery.form.js"></script>
+    <script type="text/javascript" src="static/js/change.js" ></script>
+</body>
+
+</html>

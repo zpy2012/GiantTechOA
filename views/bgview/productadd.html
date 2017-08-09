@@ -1,0 +1,142 @@
+{{template "bgview/header.html" .}}
+    <div class="tpl-page-container tpl-page-header-fixed">
+
+
+        <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-title">
+                Amaze UI 列表
+            </div>
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu">
+                    <li class="tpl-left-nav-item">
+                        <a href="/admin" class="nav-link" >
+                            <i class="am-icon-home"></i>
+                            <span>首页管理</span>
+                        </a>
+                    </li>
+                    <li class="tpl-left-nav-item">
+                        <a href="/admin/chart" class="nav-link" >
+                            <i class="am-icon-pagelines"></i>
+                            <span>礼仪花束</span>
+                        </a>
+                    </li>
+                    <li class="tpl-left-nav-item">
+                        <a href="/admin/style" class="nav-link ">
+                            <i class="am-icon-modx"></i>
+                            <span>风格管理</span>
+                        </a>
+                    </li>
+                    <li class="tpl-left-nav-item">
+                        <a href="/admin/products" class="nav-link ">
+                            <i class="am-icon-wpforms"></i>
+                            <span>产品列表</span>
+                        </a>
+                    </li>
+                    <li class="tpl-left-nav-item">
+                        <a href="/admin/userlist" class="nav-link ">
+                            <i class="am-icon-users"></i>
+                            <span>用户列表</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+
+        <div class="tpl-content-wrapper">
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 表单
+                    </div>
+                </div>
+
+                <div class="tpl-block">
+
+                    <div class="am-g">
+                        <div class="tpl-form-body tpl-form-line">
+                            <form class="am-form tpl-form-line-form ajax-form"  enctype="multipart/form-data" action="/admin/products/add" method="post">
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">名称 <span class="tpl-form-line-small-title">Name</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入产品名称" name="flowername">
+                                        <small>请填写产品名称10-20字左右。</small>
+                                    </div>
+                                </div>
+                            <!--<div class="am-form-group">
+                                    <label for="user-email" class="am-u-sm-3 am-form-label">发布时间 <span class="tpl-form-line-small-title">Time</span></label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" class="am-form-field tpl-form-no-bg" placeholder="发布时间" data-am-datepicker="" readonly/>
+                                        <small>发布时间为必填</small>
+                                    </div>
+                                </div> -->
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label">分类 <span class="tpl-form-line-small-title">Type</span></label>
+                                    <div class="am-u-sm-9">
+                                        <select data-am-selected="{searchBox: 1}" name="type1">
+                                          <option value="1">男神/女神</option>
+                                          <option value="2">朋友</option>
+                                          <option value="3">长辈</option>
+                                          <option value="4">最佳情侣</option>
+                                        </select>
+                                        <select data-am-selected="{searchBox: 1}" name="type2">
+                                        {{range .styles}}
+                                          <option value={{.Code}}>{{.Title}}</option>
+                                        {{end}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-weibo" class="am-u-sm-3 am-form-label">图片 <span class="tpl-form-line-small-title">Image</span></label>
+                                    <div class="am-u-sm-9">
+                                        <div class="am-form-group am-form-file">
+                                            <div class="tpl-form-file-img">
+                                                <img src="static/img/a5.png" alt="" id="preview">
+                                            </div>
+                                            <button type="button" class="am-btn am-btn-danger am-btn-sm">
+                                            <i class="am-icon-cloud-upload"></i> 添加封面图片</button>
+                                            <input id="doc-form-file" type="file"  multiple accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" name="flowerimage">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-intro" class="am-u-sm-3 am-form-label">描述 <span class="tpl-form-line-small-title">Description</span></label>
+                                    <div class="am-u-sm-9">
+                                        <textarea class="" rows="3" id="user-intro" placeholder="请输入描述内容" name="flowerdescription"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success submit_button" >提交</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="your-modal">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">正在上传...</div>
+            <div class="am-modal-bd">
+                <span class="am-icon-spinner am-icon-spin"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/amazeui.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script type="text/javascript" src="static/js/jquery.form.js"></script>
+    <script type="text/javascript" src="static/js/change.js" ></script>
+</body>
+
+</html>

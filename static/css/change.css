@@ -1,0 +1,26 @@
+.zjy_margin .am-btn:first-child{
+	margin-left: 22%;
+}
+.tpl-content-wrapper{
+	padding-top: 0;
+}
+.zjy_marginbottom{
+	margin-bottom: 20px;
+}
+.zjy_margintb{
+	margin: 10px 0;
+}
+.zjy_position{
+	position: relative;
+}
+.zjy_position .am-checkbox{
+	position: absolute;
+	top: 4%;
+	right: 9%;
+}
+.zjy_img{
+	width: 100%;
+}
+.zjy-text-secondary{
+	color: #3bb4f2;
+}

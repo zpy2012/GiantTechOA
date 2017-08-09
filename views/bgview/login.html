@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Amaze UI Admin index Examples</title>
+  <meta name="description" content="这是一个 index 页面">
+  <meta name="keywords" content="index">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="static/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="static/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="static/css/amazeui.min.css" />
+  <link rel="stylesheet" href="static/css/admin.css">
+  <link rel="stylesheet" href="static/css/app.css">
+  <style type="text/css">
+  	@media screen and (max-width: 640px) {
+    .yhy_input {
+    	width: 40% !important;
+    }
+}
+  </style>
+</head>
+
+<body data-type="login">
+
+  <div class="am-g myapp-login">
+	<div class="myapp-login-logo-block  tpl-login-max">
+		<div class="myapp-login-logo-text">
+			<div class="myapp-login-logo-text">
+				Amaze UI<span> 项目管理</span> <i class="am-icon-skyatlas"></i>
+				
+			</div>
+		</div>
+
+		<!-- <div class="login-font">
+			<i>Log In </i> or <span> Sign Up</span>
+		</div> -->
+		<div class="am-u-sm-10 login-am-center">
+			<div class="am-form">
+				<fieldset>
+					<div class="am-form-group">
+						<input type="text" name="username" class="username" id="doc-ipt-email-1" placeholder="输入电子邮件">
+					</div>
+					<div class="am-form-group">
+						<input type="password" name="password" class="password" id="doc-ipt-pwd-1" placeholder="设置个密码吧">
+					</div>
+					<p><button type="submit" class="am-btn am-btn-default" onclick="submits()">登录</button></p>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">绑定手机</div>
+    <div class="am-modal-bd">
+      <input type="text" class="am-modal-prompt-input" id="phoneNumber" placeholder="请输入手机号">
+      <div class="am-modal-prompt-input yhy_div" style="padding: 0px; border: 0px">
+      	<input type="text" class="am-modal-prompt-input yhy_input" id="code" style="display: inline-block;width: 73%;" placeholder="输入验证码">
+      	<button type="button" class="am-btn am-btn-secondary am-round yhy_btn" style="height: 33px; margin-top: 5px;display: inline-block;line-height: 16px; width: 25%;font-size: 14px;" onclick="getCode()">获取验证码</button>
+      </div>
+    </div>
+    <div class="am-modal-footer">
+      <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+      <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+    </div>
+  </div>
+</div>
+
+<div class="am-modal am-modal-prompt" tabindex="-1" id="alert">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd" id="title">Amaze UI</div>
+  </div>
+</div>
+  <script src="static/js/jquery.min.js"></script>
+  <script src="static/js/amazeui.min.js"></script>
+  <script src="static/js/app.js"></script>
+  <script type="text/javascript">
+  	var URL = "/login";
+  	function submits(){
+  		var username = $(".username").val();
+  		var password = $(".password").val();
+  		$.post(URL,
+	    {
+	      username:username,
+	      password:password
+	    },
+	    function(data,status){
+	      // alert("数据：" + data + "\n状态：" + status);
+	      if (data == "登陆成功") {
+	      	window.location.href="/?page=1"
+	      }else if (data == "绑定手机") {
+	      	$('#my-prompt').modal({
+		      relatedTarget: this,
+		      closeViaDimmer: false,
+		      onConfirm: function(e) {
+		      	var url = "/compareCode"
+		      	var phoneNumber = $('#phoneNumber').val();
+		      	var code = $('#code').val();
+		      	if (phoneNumber == "") {
+		      		$('#title').text("请输入手机号");
+			      	$('#alert').modal('open');
+			  		setTimeout(function(){
+			  			$('#alert').modal('close');
+			  		},1000)//2秒后自动关闭
+		      	}else if (code == "") {
+		      		$('#title').text("请输入验证码");
+			      	$('#alert').modal('open');
+			  		setTimeout(function(){
+			  			$('#alert').modal('close');
+			  		},1000)//2秒后自动关闭
+		      	}else{
+		      		$.post(url,
+			        {
+			        	userName:username,
+			        	phoneNumber:phoneNumber,
+			        	code:code,
+			        	type:"new"
+			        },
+					function(data,status){
+						if (data == "验证成功") {
+							$('#my-prompt').modal('close');
+							submits();
+						}else {
+					      	$('#title').text(data);
+					      	$('#alert').modal('open');
+					  		setTimeout(function(){
+					  			$('#alert').modal('close');
+					  		},1000)//2秒后自动关闭
+				      	}
+					});
+		      	}
+		      },
+		      onCancel: function(e) {
+		        
+		      }
+		    });
+	      }else {
+	      	$('#title').text(data);
+	      	$('#alert').modal('open');
+	  		setTimeout(function(){
+	  			$('#alert').modal('close');
+	  		},1000)//2秒后自动关闭
+	      }
+	    });
+  	}
+  	function getCode(){
+  		var phoneNumber = $('#phoneNumber').val();
+  		var url = "/getCode/?phoneNumber="+phoneNumber;
+  		$.get(url,
+		function(data,status){
+			if (data == "获取成功") {
+				$('.yhy_btn').addClass("am-disabled");
+				Countdown();
+			}else {
+		      	$('#title').text("获取失败，请重试!");
+		      	$('#alert').modal('open');
+		  		setTimeout(function(){
+		  			$('#alert').modal('close');
+		  		},1000)//2秒后自动关闭
+	      	}
+		});
+  	}
+  	var timer =60;
+  	function Countdown() {
+		if (timer >= 1) {
+			$('.yhy_btn').html("("+timer+")秒后获取");
+    		timer -= 1;
+    		setTimeout(function() {
+        		Countdown();
+    		}, 1000);
+		}
+		else{
+			$('.yhy_btn').removeClass("am-disabled");
+			$('.yhy_btn').html("获取验证码");
+		}
+	};
+  </script>
+</body>
+
+</html>

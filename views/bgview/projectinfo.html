@@ -1,0 +1,353 @@
+{{template "bgview/header.html" .}}
+    <div class="tpl-page-container tpl-page-header-fixed">
+
+
+       <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-title">
+                	管理分类
+            </div>
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu">
+                    <li class="tpl-left-nav-item">
+                        <a href="/?page=1&projectname=all" class="nav-link active">
+                            <i class="am-icon-home"></i>
+                            <span>项目管理</span>
+                        </a>
+                    </li>
+                    {{if eq .User.UserLevel 0}}
+                        <li class="tpl-left-nav-item">
+                            <a href="/department/?page=1" class="nav-link ">
+                                <i class="am-icon-pagelines"></i>
+                                <span>部门管理</span>
+                            </a>
+                        </li>
+                        <li class="tpl-left-nav-item">
+                            <a href="/user/?page=1" class="nav-link ">
+                                <i class="am-icon-modx"></i>
+                                <span>用户管理</span>
+                            </a>
+                        </li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="tpl-content-wrapper">
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 项目信息
+                    </div>
+                </div>
+
+                <div class="tpl-block">
+
+                    <div class="am-g">
+                        <div class="tpl-form-body tpl-form-line">
+                            <form class="am-form tpl-form-line-form ajax-form" action="" method="post">
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label title">项目名称 <span class="tpl-form-line-small-title">ProjectName</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{.Project.ProjectName}}</small>
+                                        <button type="button" class="am-btn am-btn-secondary am-round" id="updateProjectName" style="margin-left: 20px; font-size: 12px;">修改</button>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-intro" class="am-u-sm-3 am-form-label title">项目描述 <span class="tpl-form-line-small-title">Description</span></label>
+                                    <div class="am-u-sm-9" style="width: 85%">
+                                        <small>{{.Project.ProjectDescription}}</small>
+                                    </div>
+                                    <div class="am-u-sm-9" style="width: 85%">
+                                        <button type="button" class="am-btn am-btn-secondary am-round" id="updateProjectDescription" style="font-size: 12px;">修改</button>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label title">项目来源 <span class="tpl-form-line-small-title">ProjectSource</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{projectSource .Project.ProjectSource}}</small>
+                                        <button type="button" class="am-btn am-btn-secondary am-round" id="updateProjectSource" style="margin-left: 20px; font-size: 12px;">修改</button>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label title">项目报价（元） <span class="tpl-form-line-small-title">ProjectExpectedAmount</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{.Project.ProjectExpectedAmount}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label title">项目预估工期（工作日） <span class="tpl-form-line-small-title">ProjectExpectedDuration</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{.Project.ProjectExpectedDuration}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label title">项目合同价格（元） <span class="tpl-form-line-small-title">ProjectDealAmount</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{.Project.ProjectDealAmount}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label title">项目合同工期（工作日） <span class="tpl-form-line-small-title">ProjectDealDuration</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{.Project.ProjectDealDuration}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label title">项目状态 <span class="tpl-form-line-small-title">ProjectStatus</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{projectStatus .Project.ProjectStatus}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label title">项目类型 <span class="tpl-form-line-small-title">ProjectType</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{projectType .Project.ProjectType}}</small>
+                                        <button type="button" class="am-btn am-btn-secondary am-round" id="updateProjectType" style="margin-left: 20px; font-size: 12px;">修改</button>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label title">项目创建者 <span class="tpl-form-line-small-title">ProjectOwner</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{projectOwner .Project.ProjectWonerID}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label title">创建时间 <span class="tpl-form-line-small-title">ProjectCreatedTime</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{date .Project.ProjectCreatedTime}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label title">开始时间 <span class="tpl-form-line-small-title">ProjectStartTime</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{date .Project.ProjectStartTime}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label title">完成时间 <span class="tpl-form-line-small-title">ProjectCompleteTime</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{date .Project.ProjectCompleteTime}}</small>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-u-sm-3 am-form-label title">结束时间 <span class="tpl-form-line-small-title">ProjectEndTime</span></label>
+                                    <div class="am-u-sm-9 info">
+                                        <small>{{date .Project.ProjectEndTime}}</small>
+                                    </div>
+                                </div>
+                                <div style="display: none;" id="PId">{{.Project.Id}}</div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3 info">
+                                        <button type="button" id="project_operation_btn" class="am-btn am-btn-primary am-round" {{projectOperationStatus .User.Id .Project.ProjectStatus}} style="width: 10%;" >
+                                        {{projectOperation .User.Id .Project.ProjectStatus}}
+                                        </button>
+                                        <button type="button" style="width: 10%;" id="project_del_btn" class="am-btn 
+                                        {{if eq .Project.ProjectStatus -1}}
+                                        am-btn-danger
+                                        {{else}}
+                                        am-btn-warning
+                                        {{end}}
+                                         am-round" >
+                                        {{if eq .Project.ProjectStatus -1}}
+                                        	删除
+                                        {{else}}
+                                       		 放弃
+                                        {{end}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="am-modal am-modal-no-btn" tabindex="-1" id="reminder">
+        <div class="am-modal-dialog">
+		    <div class="am-modal-hd">提示</div>
+		    <div class="am-modal-bd" id="reminder_title">Hello world！</div>
+	    </div>
+    </div>
+    
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="project_baojia">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">项目报价</div>
+        <div class="am-modal-bd">
+          	<input type="text" class="am-modal-prompt-input" id="project_price" placeholder="请输入项目报价">
+          	<input type="text" class="am-modal-prompt-input" id="project_time" placeholder="请输入项目预估工期">
+        </div>
+        <div class="am-modal-footer">
+        	<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          	<span class="am-modal-btn" data-am-modal-confirm>提交</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="project_deal">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">项目签约</div>
+        <div class="am-modal-bd">
+          	<input type="text" class="am-modal-prompt-input" id="project_dealprice" placeholder="请输入项目成交价">
+          	<input type="text" class="am-modal-prompt-input" id="project_dealtime" placeholder="请输入项目成交工期">
+        </div>
+        <div class="am-modal-footer">
+        	<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          	<span class="am-modal-btn" data-am-modal-confirm>提交</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="project_start">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">开始项目</div>
+        <div class="am-modal-bd">
+          	确定要开始开发项目吗？（该时间应为项目实际开始开发的时间）
+        </div>
+        <div class="am-modal-footer">
+        	<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          	<span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="project_end">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">项目结项</div>
+        <div class="am-modal-bd">
+          	确定要进行项目结项吗？（项目结项意味着项目已经验收完成且无尾款拖欠）
+        </div>
+        <div class="am-modal-footer">
+        	<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          	<span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="project_status">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">项目状态</div>
+        <div class="am-modal-bd">
+          	请选择项目状态：
+          	<select data-am-selected="{searchBox: 1}" id="status_select">
+	          	<option value=4>开发中</option>
+	          	<option value=5>测试中</option>
+	          	<option value=6>已完成</option>
+	        </select>
+        </div>
+        <div class="am-modal-footer">
+        	<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          	<span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="update_project_name">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">修改项目名称</div>
+        <div class="am-modal-bd">
+        	请输入项目名称：
+          	<input type="text" class="am-modal-prompt-input" id="project_newname" placeholder="请输入项目项目名称">
+        </div>
+        <div class="am-modal-footer">
+        	<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          	<span class="am-modal-btn" data-am-modal-confirm>提交</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="update_project_description">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">修改项目介绍</div>
+        <div class="am-modal-bd">
+        	请输入项目介绍：
+          	<textarea class="am-modal-prompt-input" rows="10" id="project_newdescription" placeholder="请输入项目介绍"></textarea>
+        </div>
+        <div class="am-modal-footer">
+        	<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          	<span class="am-modal-btn" data-am-modal-confirm>提交</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="update_project_source">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">修改项目来源</div>
+        <div class="am-modal-bd">
+          	请选择项目来源：
+          	<select data-am-selected="{searchBox: 1}" id="project_newsource">
+	          	<option value=0>线上</option>
+	          	<option value=1>线下</option>
+	        </select>
+        </div>
+        <div class="am-modal-footer">
+        	<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          	<span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="update_project_type">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">修改项目类型</div>
+        <div class="am-modal-bd">
+          	请选择项目类型：
+          	<select data-am-selected="{searchBox: 1}" id="project_newtype">
+	          	<option value=0>设计类</option>
+	          	<option value=1>开发类</option>
+	          	<option value=2>运营类</option>
+	        </select>
+        </div>
+        <div class="am-modal-footer">
+        	<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          	<span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="wornning">
+      <div class="am-modal-dialog">
+        <div class="am-modal-hd">警告</div>
+        <div class="am-modal-bd">
+          	危险操作，确定要继续吗？
+        </div>
+        <div class="am-modal-footer">
+        	<span class="am-modal-btn" data-am-modal-cancel>取消</span>
+          	<span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/amazeui.min.js"></script>
+    <script src="static/js/app.js"></script>
+    <script type="text/javascript" src="static/js/jquery.form.js"></script>
+    <script type="text/javascript" src="static/js/change.js" ></script>
+    <script type="text/javascript" src="static/js/amazeui.upload.js"></script>
+    <script type="text/javascript" src="static/js/amazeui.upload.template.js"></script>
+    <script type="text/javascript" src="static/js/amazeui.upload.event.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var upload=$('#event').AmazeuiUpload({
+                    url : '/project/upload',
+                    downloadUrl :'',
+                    maxFiles: 50, // 单次上传的数量
+                    maxFileSize: 100, // 单个文件允许的大小 (M)
+                    multiThreading: false, // true为同时上传false为队列上传
+                    useDefTemplate: true, //是否使用表格模式
+                    dropType: false, //是否允许拖拽
+                    pasteType: false //是否允许粘贴
+               });
+
+            upload.init(); //对象初始化
+            // upload.destory(); //对象销毁
+            // upload.setResult(); //置入已上传的对象
+            // upload.selectResult(); //获取当前已经完成上传的对象
+        });
+    </script>
+</body>
+
+</html>
